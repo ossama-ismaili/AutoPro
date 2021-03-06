@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+@{
+    ViewData["Title"] = "Index";
+}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="ui item" style="background:white;border:1px solid #ccc;margin:1.5em;">
+
+    <div class="content">
+        <div id="chart_div"></div>
+
+    </div>
+</div>
+
+<div class="ui item" style="background:white;border:1px solid #ccc;margin:1.5em;">
+    <div class="content">
+        <div id="chartvoiture"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadData);
+
+    function LoadData() {
+        $.ajax({
+
+            url: 'dashboard/marqueByNumber',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                marqueChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function marqueChart(data) {
+        var dataArray = [
+            [@_localizer["Marque"], @_localizer["nombre des voitures"]]
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item.nomMarque, item.count]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: @_localizer["Les marques les plus presentes dans la plateforme"],
+            chartArea: {
+                width: '50%'
+            },
+            colors: ['#b0120a', '#7b1fa2', '#ffab91', '#d95f02'],
+            hAxis: {
+                title: 'Marque',
+                minValue: 0
+            },
+            vAxis: {
+                title: _localizer["nombre de voiture"]
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+        return false;
+    }
+
+
+
+</script>
+
+<script>
+    /// voiture chart
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadDatapie);
+
+    function LoadDatapie() {
+        $.ajax({
+
+            url: 'dashboard/carsByDemand',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                voitureChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function voitureChart(data) {
+        var dataArray = [
+            [@_localizer["La voiture"], @_localizer["Nombre de fois"]]
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item.nomVoiture, item.countLocation]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: @_localizer["les voitures les plus demandées"],
+            chartArea: {
+                width: '50%'
+            },
+            colors: ['#b0120a', '#7b1fa2', '#ffab91', '#d95f02'],
+            hAxis: {
+                title: @_localizer["Nom voiture"],
+                minValue: 0
+            },
+            vAxis: {
+                title: @_localizer["Nombre de fois"]
+            }
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chartvoiture'));
+
+        chart.draw(data, options);
+        return false;
+    }
+</script>

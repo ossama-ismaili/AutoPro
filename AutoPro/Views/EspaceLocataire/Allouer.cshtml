@@ -1,0 +1,38 @@
+﻿@model AutoPro.Models.Voiture
+
+@{
+    ViewData["Title"] = "Allouer";
+}
+
+
+<h4>Choisir la periode d'allocation</h4>
+
+<div style="width:60%;margin:auto">
+    <div class="ui center aligned">
+        <form method="post" class="ui form" asp-action="confirmAllouer">
+            <div class="field">
+                <div class="ui calendar">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="date" placeholder="starting date" name="startingDate">
+                    </div>
+                </div>
+            </div>
+
+
+            <input type="hidden" name="carid" value="@Model.Id">
+
+            <div class="field">
+                <div class="ui calendar">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="date" placeholder="ending dte" name="endingDate">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="ui button teal" value="allouer">
+            
+           
+        </form>
+        </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model AutoPro.Models.Voiture
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+@using AutoPro.Helpers
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="ui item">
+    <div class="content">
+        <h2 class="ui center aligned whiteBG" style="width:70%;margin-bottom:1em">@Html.DisplayFor(model => model.Marque.NomMarque) @Html.DisplayFor(model => model.Model.NomModel)</h2>
+
+        <div class="ui grid center aligned">
+            <div class="ui eleven wide column whiteBG">
+                <div class="image" style="padding-top:10px">
+                    <img src="../../@Html.DisplayFor(model => model.ImagePath)" width="100%" style="max-height:1000px" />
+                </div>
+                <table class="ui celled table">
+                    <tbody>
+                        <tr>
+                            <td>@_localizer["Price Per Day"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.PrixParJour) MAD</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Mark"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.Marque.NomMarque)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Model"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.Model.NomModel)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Year"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.Annee)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Color"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.Couleur)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Mileage"]</td>
+                            <td>@Html.DisplayFor(modelItem => modelItem.Kilometrage)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="ui whiteBG">
+                    <div class="ui center aligned extra">
+                        @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Executive))
+                        {
+            <a asp-controller="Voitures" asp-action="Edit" asp-route-id="@Model.Id" class="ui tiny labeled icon button blue"><i class=" ui icon edit"></i>@_localizer["Edit"]</a>
+                            <a asp-controller="Voitures" asp-action="Delete" asp-route-id="@Model.Id" class="ui tiny labeled icon button red"><i class=" ui icon trash"></i>@_localizer["Delete"]</a>}
+                        <a asp-action="Index" class="ui tiny green labeled icon button"><i class=" ui icon arrow left"></i>@_localizer["Back to List"]</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ui four wide column whiteBG center aligned" style="padding-top:1em">
+                <h3>Description</h3>
+                <div>
+                    @Html.DisplayFor(modelItem => modelItem.Description)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

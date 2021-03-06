@@ -1,0 +1,127 @@
+﻿@using AutoPro.Helpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AutoPro</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/lib/semantic-ui/semantic.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link href="~/lib/semantic-ui/semantic.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-customize">
+        <div style="width:90%">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
+                    <img width="175" src="~/images/AutoPro_Logo.png" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Executive))
+                    {
+                        <li><a asp-area="" asp-controller="Voitures" asp-action="">@_localizer["Owners board"]</a></li>
+                        <li><a asp-area="" asp-controller="EspaceLocataire" asp-action="Index">@_localizer["Rental board"]</a></li>
+                    }
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        <li><a asp-area="" asp-controller="Models" asp-action="">@_localizer["Models"]</a></li>
+                        <li><a asp-area="" asp-controller="Marques" asp-action="">@_localizer["Marks"]</a></li>
+                    }
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        <li><a asp-area="" asp-controller="EspaceLocataire" asp-action="BlackList">@_localizer["Blacklist"]</a></li>
+                        <li><a asp-area="" asp-controller="EspaceLocataire" asp-action="UsersList">@_localizer["Users list"]</a></li>
+                    }
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">@_localizer["Add user"]</a></li>
+                    }
+
+                    <li><a href="/Home/About">@_localizer["About Us"]</a></li>
+                    <li><a href="/Home/Contact">@_localizer["Contact Us"]</a></li>
+                </ul>
+
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div style="width:95%;margin:auto;margin-top:4em;">
+        @if ((User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Executive)) && this.ViewContext.RouteData.Values["controller"] != null || this.ViewContext.RouteData.Values["action"] != null )
+        {
+            <div class="ui breadcrumb">
+                <a class="section" asp-controller="Home" asp-action="Index"><i class="ui icon home"></i>AutoPro</a>
+                <i class="right chevron icon divider"></i>
+                <a asp-area="" asp-controller="@this.ViewContext.RouteData.Values["controller"].ToString()" asp-action="Index" class="section">@this.ViewContext.RouteData.Values["controller"].ToString()</a>
+                <i class="right chevron icon divider"></i>
+                <div class="active section">@this.ViewContext.RouteData.Values["action"].ToString()</div>
+            </div>
+        }
+        <section class="body-section">
+            @RenderBody()
+        </section>  
+    </div>
+    <footer class="footer-container">
+        @{
+            string year = DateTime.Now.Year.ToString();
+        }
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text">&copy; @year - AutoPro</p>
+            </div>
+            <div class="col-md-6">
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/semantic-ui/components/dimmer.js"></script>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/semantic-ui/semantic.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~/lib/semantic-ui/semantic.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

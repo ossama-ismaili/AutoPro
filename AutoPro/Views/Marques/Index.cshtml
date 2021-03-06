@@ -1,0 +1,55 @@
+﻿@model IEnumerable<AutoPro.Models.Marque>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <h1>@_localizer["Marks"]</h1>
+<form asp-controller="Marques" asp-action="Index">
+        <div class="ui form">
+            <div class="inline fields">
+                <div class="ui eight wide field"><input type="text" id="marques" name="marques" placeholder="@_localizer["Enter your keyword"]" aria-describedby="basic-addon1" /></div>
+                <div class="ui four wide field"><button type="submit" class="ui tiny teal labeled icon button"><i class=" ui icon search"></i>@_localizer["Search"]</button></div>
+            </div>
+            </div>
+</form>
+<p>
+
+    <a asp-action="Create" class="ui green button"><i class="ui icon add"></i>@_localizer["Create New"]</a>
+</p>
+<table class="ui striped table">
+    <thead>
+        <tr>
+            <th>
+                @_localizer["Mark name"]
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomMarque)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="ui tiny labeled icon button blue"><i class=" ui icon edit"></i>@_localizer["Edit"]</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="ui tiny labeled icon button red"><i class=" ui icon trash"></i>@_localizer["Delete"]</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="ui tiny teal labeled icon button"><i class=" ui icon info"></i>@_localizer["Details"]</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+$(document).ready(function () {
+            $("#marques").autocomplete({
+                source: 'api/marqueapi/search'
+            });
+        });</script>
+}

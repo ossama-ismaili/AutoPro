@@ -1,0 +1,178 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: #efefef;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.navbar-customize{
+    background-color:#00051f;
+}
+
+.margin {
+    margin: 5px;
+}
+
+.ui.grid > .column:not(.row) {
+    padding-top: 0;
+}
+
+.ui.items > .item > .image > img {
+    display: block;
+    width: 100%;
+    border-radius: 0.125rem;
+    border: none;
+    height: 509px;
+}
+
+.ui.items > .item > .image:not(.ui) {
+    width: 550px;
+}
+
+.ui.items > .item > .content > .header:not(.ui) {
+    margin-top: 1.2em;
+    padding: 0.5em;
+}
+
+.whiteBG {
+    background: #fff;
+    padding: 0.7em;
+    margin: 0.7em;
+    border-left: 5px solid #008ca5;
+    box-shadow: 0px 0px 8px -1px #ccc;
+}
+
+.footer-container {
+    background-color: #111;
+    padding: 25px;
+    margin-top: 10px;
+}
+
+.footer-container .text{
+    color: #fff;
+}
+
+.body-section {
+    min-height: 500px;
+    animation: expand 1s ease forwards;
+}
+
+.about-section {
+    margin-top: 20px;
+}
+
+.about-section h2{
+    font-size:28px;
+    font-weight:600;
+}
+
+.about-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.about-section p {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.contact-section {
+    margin-top: 20px;
+}
+
+.contact-section h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.contact-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.contact-section address {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(500px) scale(.2);
+    }
+
+    100% {
+        transform: translateX(0px) scale(1);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(300px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-500px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes expand {
+    0% {
+        transform: translateX(1400px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes bright {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

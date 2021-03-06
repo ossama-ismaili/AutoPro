@@ -1,0 +1,128 @@
+﻿@model IEnumerable<AutoPro.Models.Voiture>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+@using AutoPro.Helpers
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@_localizer["My cars"]</h1>
+<form asp-controller="Voitures" asp-action="Index">
+    <div class="ui form">
+        <div class="three fields">
+            <select id="criteriaSelector" name="criteria" class="ui field" onchange="criteriaFunction()">
+                <option value="">@_localizer["Criteria"]</option>
+                <option value="price">@_localizer["Price"]</option>
+                <option value="color">@_localizer["Color"]</option>
+                <option value="mark">@_localizer["Mark"]</option>
+            </select>
+
+            <input type="text" id="prix" class="ui field input" name="prix" placeholder="@_localizer["Enter a price"]" aria-describedby="basic-addon1" />
+            <input type="text" id="color" class="ui field input" name="color" placeholder="@_localizer["Enter a color"]" aria-describedby="basic-addon1" />
+            <input type="text" id="Marque" class="ui field input" name="Marque" placeholder="@_localizer["Enter a mark"]" aria-describedby="basic-addon1" />
+            <button type="submit" class="ui tiny teal labeled icon button field"><i class=" ui icon search"></i>@_localizer["Search by criteria"]</button>
+        </div>
+    </div>
+</form>
+<p>
+    <a asp-action="Create" class="ui green button"><i class="ui icon add"></i>@_localizer["Create New"]</a>
+    <a asp-action="demandes" class="ui blue button"><i class="ui icon list ul"></i>@_localizer["Demandes"]</a>
+</p>
+<div class="ui items">
+    @foreach (var item in Model)
+    {
+        <div class="ui item" style="background:white;border:1px solid #ccc;margin:1.5em;">
+            <div class="image">
+                <img src="@Html.DisplayFor(modelItem => item.ImagePath)" />
+            </div>
+            <div class="content">
+                <span class="ui center aligned extra">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="ui tiny teal labeled icon button"><i class=" ui icon info"></i>@_localizer["Details"]</a>
+                    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Executive))
+                    {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="ui tiny labeled icon button blue"><i class=" ui icon edit"></i>@_localizer["Edit"]</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="ui tiny labeled icon button red"><i class=" ui icon trash"></i>@_localizer["Delete"]</a>
+                     }
+                </span>
+
+                <div class="header padded">@Html.DisplayFor(modelItem => item.Marque.NomMarque) @Html.DisplayFor(modelItem => item.Model.NomModel)</div>
+                <span class="meta ui green text"> @Html.DisplayFor(modelItem => item.PrixParJour) MAD / @_localizer["Day"]</span>
+
+                <table class="ui celled table">
+                    <tbody>
+                        <tr>
+                            <td>@_localizer["Price Per Day"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.PrixParJour) MAD</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Mark"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.Marque.NomMarque)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Model"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.Model.NomModel)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Year"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.Annee)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Color"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.Couleur)</td>
+                        </tr>
+                        <tr>
+                            <td>@_localizer["Mileage"]</td>
+                            <td>@Html.DisplayFor(modelItem => item.Kilometrage)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<div class="clear"></div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>  
+        document.getElementById("Marque").style.display = "block";
+        document.getElementById("color").style.display = "none";
+        document.getElementById("prix").style.display = "none";
+        function criteriaFunction() {
+            if (document.getElementById("criteriaSelector").value === "mark") {
+                document.getElementById("Marque").style.display = "block";
+                document.getElementById("color").style.display = "none";
+                document.getElementById("prix").style.display = "none";
+            }
+            else if (document.getElementById("criteriaSelector").value == "price") {
+                document.getElementById("prix").style.display = "block";
+                document.getElementById("color").style.display = "none";
+                document.getElementById("Marque").style.display = "none";
+            }
+            else if (document.getElementById("criteriaSelector").value == "color") {
+                document.getElementById("color").style.display = "block";
+                document.getElementById("Marque").style.display = "none";
+                document.getElementById("prix").style.display = "none";
+            }
+            else {
+                document.getElementById("Marque").style.display = "block";
+                document.getElementById("color").style.display = "none";
+                document.getElementById("prix").style.display = "none";
+            }
+        }
+        $(document).ready(function () {
+            $("#Marque").autocomplete({
+                source: 'api/voitureapi/searchmk'
+            });
+            $("#prix").autocomplete({
+                source: 'api/voitureapi/searchp'
+            });
+            $("#color").autocomplete({
+                source: 'api/voitureapi/searchc'
+            });
+
+        });
+    </script>
+
+}
+

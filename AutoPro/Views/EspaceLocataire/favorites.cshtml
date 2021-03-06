@@ -1,0 +1,74 @@
+﻿@model AutoPro.Models.viewModel.EspaceLocataireVM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+
+    <div class="ui items">
+        @foreach (var item in Model.voitures)
+        {
+            <div class="ui item" style="background:white;border:1px solid #ccc;margin:1.5em;">
+                <div class="image">
+                    <img src="../@Html.DisplayFor(modelItem => item.ImagePath)" />
+                </div>
+                <div class="content">
+                    <span class="ui center aligned extra">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="ui tiny blue labeled icon button"><i class=" ui icon info"></i>@_localizer["Details"]</a>
+                        <a asp-action="Allouer" asp-route-id="@item.Id" class="ui tiny teal labeled icon button"><i class=" ui icon plus"></i>@_localizer["Allouer"]</a>
+                        <a asp-action="supprimerFavori" asp-route-id="@item.Id" class="ui tiny red labeled icon button"><i class=" ui icon star"></i>@_localizer["Remove favorite"]</a>
+                    </span>
+
+                    <div class="header padded">@Html.DisplayFor(modelItem => item.Marque.NomMarque) @Html.DisplayFor(modelItem => item.Model.NomModel)</div>
+                    <span class="meta ui green text"> @Html.DisplayFor(modelItem => item.PrixParJour) MAD / Jour</span>
+
+                    <table class="ui celled table">
+                        <tbody>
+                            <tr>
+                                <td>@_localizer["Price Per Day"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.PrixParJour) MAD</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Mark"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.Marque.NomMarque)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Model"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.Model.NomModel)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Year"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.Annee)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Color"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.Couleur)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Mileage"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.Kilometrage)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Owner name"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Nom)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Tel"]</td>
+                                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)</td>
+                            </tr>
+                            <tr>
+                                <td>@_localizer["Availability"]</td>
+                                <td>
+                                    @if (item.EstDisponible)
+                                     {
+                                        <div class="ui twelve wide column"><span class="ui green label">@_localizer["Available"]</span></div> 
+                                     }
+                                    else
+                                    {
+                                        <div class="ui twelve wide column"><span class="ui red label">@_localizer["Occupied"]</span></div>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>

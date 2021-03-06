@@ -1,0 +1,35 @@
+﻿@model AutoPro.Models.Marque
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@_localizer["Create"]</h1>
+
+<h4>@_localizer["Mark"]</h4>
+<hr />
+
+<div style="width:60%;margin:auto">
+    <div class="ui center aligned">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">@_localizer["Mark Name"]</label>
+                <input asp-for="NomMarque" class="form-control" />
+                <span asp-validation-for="NomMarque" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value=@_localizer["Create"] class="ui green button icon add" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@_localizer["Back to List"]</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
